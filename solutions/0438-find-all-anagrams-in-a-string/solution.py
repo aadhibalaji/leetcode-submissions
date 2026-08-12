@@ -5,37 +5,28 @@ class Solution(object):
         :type p: str
         :rtype: List[int]
         """
-
-        if len(s) < len(p):
-            return []
-
+        
         pTable = {}
 
-        for char in p:
-            pTable[char] = pTable.get(char, 0) + 1
+        for i in range(len(p)):
+            pTable[p[i]] = pTable.get(p[i], 0) + 1
 
         
-        currTable = {} 
+        table = {}
         res = []
+        left = 0
 
         for right in range(len(s)):
-            currTable[s[right]] = currTable.get(s[right], 0) + 1
+            table[s[right]] = table.get(s[right], 0) + 1
 
-            left = right - len(p) + 1
+            if right - left + 1 > len(p):
+                if table[s[left]] > 1:
+                    table[s[left]] -= 1
+                else:
+                    del table[s[left]]
+                left += 1
 
-            if left > 0:
-                lChar = s[left - 1]
-
-                currTable[lChar] -= 1
-
-                if currTable[lChar] == 0:
-                    del currTable[lChar]
-
-            if left >= 0 and currTable == pTable:
+            if table == pTable: 
                 res.append(left)
 
-
         return res
-
-    
-        
