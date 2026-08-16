@@ -5,29 +5,28 @@ class Solution(object):
         :rtype: int
         """
         
-        table = set()
 
-        left = 0
+        left, right = 0, 0
 
         res = 0
+        table = set()
 
-        for right in range(len(s)):
-            
-            if len(table) > res:
-                res = len(table)
-            
-            while s[right] in table:
+        while right < len(s):
+
+            char = s[right]
+
+            while char in table:
                 table.remove(s[left])
                 left += 1
             
-            table.add(s[right])
+            table.add(char)
 
-        if len(table) > res:
-            res = len(table)
+            res = max(res, len(table))
+
+            right += 1
 
         return res
 
 
 
-                
 
